@@ -60,6 +60,8 @@ module Trackerific
     def parse_success_response(http_response)
       # get the activity from the UPS response
       activity = http_response['TrackResponse']['Shipment']['Package']['Activity']
+      
+      return http_response['TrackResponse']['Shipment']
       # if there's only one activity in the list, we need to put it in an array
       activity = [activity] if activity.is_a? Hash
       # UPS does not provide a summary, so we'll just use the last tracking status
