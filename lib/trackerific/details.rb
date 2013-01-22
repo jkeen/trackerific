@@ -15,6 +15,7 @@ module Trackerific
       @summary = details[:summary]
       @events = details[:events]
       @weight = details[:weight] || nil
+      @estimated_delivery_date = details[:estimated_delivery_date] || nil
       @via = details[:via] || nil
     end
     
@@ -26,7 +27,7 @@ module Trackerific
     def package_id
       @package_id
     end
-    
+        
     # Summary of the package's tracking events
     # @example Get the summary of a tracked package
     #   details.summary # => Summary of the tracking events (i.e. Delivered)
@@ -59,6 +60,15 @@ module Trackerific
     # @api public
     def weight
       @weight
+    end
+    
+    # The package identifier
+    # @example Get the id of a tracked package
+    #   details.estimated_delivery_date # => the estimated delivery date
+    # @return [String] the estimated delivery date
+    # @api public
+    def estimated_delivery_date
+      @esimated_delivery_date
     end
     
     # Example: UPS 2ND DAY AIR. May not be supported by all services
