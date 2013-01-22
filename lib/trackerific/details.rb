@@ -9,7 +9,7 @@ module Trackerific
     # @api private
     def initialize(details = {})
       required = [:package_id, :summary, :events]
-      valid = required + [:weight, :via]
+      valid = required + [:weight, :via, :estimated_delivery_date]
       validate_options(details, required, valid)
       @package_id = details[:package_id]
       @summary = details[:summary]
