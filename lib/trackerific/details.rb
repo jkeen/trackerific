@@ -68,7 +68,7 @@ module Trackerific
     # @return [String] the estimated delivery date
     # @api public
     def estimated_delivery_date
-      @esimated_delivery_date
+      @estimated_delivery_date
     end
     
     # Example: UPS 2ND DAY AIR. May not be supported by all services
