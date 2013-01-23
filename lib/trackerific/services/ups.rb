@@ -62,12 +62,12 @@ module Trackerific
       # get estimated delivery date
       deliveryDateString = http_response['TrackResponse']['Shipment']['ScheduledDeliveryDate']
       
-      return http_response['TrackResponse']['Shipment']
-      deliveryDateYear = deliveryDateString[0..3]
-      deliveryDateMonth = deliveryDateString[4..5]
-      deliveryDateDay = deliveryDateString[6..7]
-      
-      deliveryDate = Date.new(deliveryDateYear.to_i, deliveryDateMonth.to_i, deliveryDateDay.to_i)
+      if deliveryDateString.present?
+        deliveryDateYear = deliveryDateString[0..3]
+        deliveryDateMonth = deliveryDateString[4..5]
+        deliveryDateDay = deliveryDateString[6..7]
+        deliveryDate = Date.new(deliveryDateYear.to_i, deliveryDateMonth.to_i, deliveryDateDay.to_i)
+      end
       
       # get the activity from the UPS response
       activity = http_response['TrackResponse']['Shipment']['Package']['Activity']
