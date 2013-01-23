@@ -61,6 +61,8 @@ module Trackerific
     
       # get estimated delivery date
       deliveryDateString = http_response['TrackResponse']['Shipment']['ScheduledDeliveryDate']
+      
+      return http_response['TrackResponse']['Shipment']
       deliveryDateYear = deliveryDateString[0..3]
       deliveryDateMonth = deliveryDateString[4..5]
       deliveryDateDay = deliveryDateString[6..7]
