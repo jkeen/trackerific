@@ -18,6 +18,14 @@
 				<CountryCode>US</CountryCode>
 			</Address>
 		</Shipper>
+		<ShipTo>
+			<Address>
+				<City>MINNEAPOLIS</City>
+				<StateProvinceCode>MN</StateProvinceCode>
+				<PostalCode>55416</PostalCode>
+				<CountryCode>US</CountryCode>
+			</Address>
+		</ShipTo>
 		<ShipmentWeight>
 			<UnitOfMeasurement>
 				<Code>LBS</Code>

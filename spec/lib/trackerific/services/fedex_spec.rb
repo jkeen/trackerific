@@ -49,6 +49,16 @@ describe Trackerific::FedEx do
       subject { @tracking }
       it("should return a Trackerific::Details") { should be_a Trackerific::Details }
       
+      describe "origin" do
+        subject { @tracking.origin }
+        it("should return a Trackerific::Location") { should be_a Trackerific::Location }
+      end
+      
+      describe "destination" do
+        subject { @tracking.destination }
+        it("should return a Trackerific::Location") { should be_a Trackerific::Location }
+      end
+      
       describe "events.length" do
         subject { @tracking.events.length }
         it { should >= 1}

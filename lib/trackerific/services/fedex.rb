@@ -25,7 +25,7 @@ module Trackerific
         [:account, :meter]
       end
     end
-    
+
     # Tracks a FedEx package
     # @param [String] package_id the package identifier
     # @return [Trackerific::Details] the tracking details
@@ -42,6 +42,7 @@ module Trackerific
       http_response.error! unless http_response.code == 200
       # get the tracking information from the reply
       track_reply = http_response["FDXTrack2Reply"]
+
       # raise a Trackerific::Error if there is an error in the reply
       raise Trackerific::Error, track_reply["Error"]["Message"] unless track_reply["Error"].nil?
       # get the details from the reply
@@ -55,14 +56,16 @@ module Trackerific
         events << Trackerific::Event.new(
           :date         => date,
           :description  => desc,
-          :location     => "#{addr["StateOrProvinceCode"]} #{addr["PostalCode"]}"
+          :location     => Trackerific::Location.new(:city => addr["City"], :state => addr["StateOrProvinceCode"], :country => addr["CountryCode"], :postal_code =>  addr["PostalCode"])
         )
       end
       # Return a Trackerific::Details containing all the events
       Trackerific::Details.new(
-        :package_id => details["TrackingNumber"],
-        :summary    => details["StatusDescription"],
-        :events     => events
+        :package_id  => details["TrackingNumber"],
+        :origin      => Trackerific::Location.new(:city => details["OriginLocationAddress"]["City"], :state => details["OriginLocationAddress"]["StateOrProvinceCode"], :country => details["OriginLocationAddress"]["CountryCode"]),
+        :destination => Trackerific::Location.new(:city => details["DestinationAddress"]["City"], :state => details["DestinationAddress"]["StateOrProvinceCode"], :country => details["DestinationAddress"]["CountryCode"]),
+        :summary     => details["StatusDescription"],
+        :events      => events
       )
     end
     

@@ -4,6 +4,7 @@ require 'trackerific/configuration'
 require 'trackerific/service'
 require 'trackerific/error'
 require 'trackerific/details'
+require 'trackerific/location'
 require 'trackerific/event'
 
 # require all the Trackerific services

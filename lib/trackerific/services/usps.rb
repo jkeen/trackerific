@@ -53,6 +53,7 @@ module Trackerific
       # raise any errors
       error = check_response_for_errors(response, :TrackV2)
       raise error unless error.nil?
+
       # get the tracking information from the response
       tracking_info = response['TrackResponse']['TrackInfo']
       events = []
@@ -148,7 +149,7 @@ module Trackerific
         state = l[:state] unless l[:state].nil?
         zip   = l[:zip]   unless l[:zip].nil?
       end
-      "#{city.titleize}, #{state} #{zip}"
+      Trackerific::Location.new(:city => city, :state => state, :postal_code => zip)
     end
     
     # Checks a HTTParty response for USPS, or HTTP errors

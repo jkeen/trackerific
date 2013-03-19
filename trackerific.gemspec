@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
     "lib/trackerific/details.rb",
     "lib/trackerific/error.rb",
     "lib/trackerific/event.rb",
+    "lib/trackerific/location.rb",
     "lib/trackerific/service.rb",
     "lib/trackerific/services/fedex.rb",
     "lib/trackerific/services/mock_service.rb",

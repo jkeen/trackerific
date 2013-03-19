@@ -40,7 +40,7 @@ module Trackerific
     def location
       @location
     end
-    
+
     # Converts the event into a string
     # @example Get a human-readable string from an event
     #   event = details.event.to_s

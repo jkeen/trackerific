@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'fakeweb'
-
+require 'pry'
 UPS_TRACK_URL = 'https://wwwcie.ups.com/ups.app/xml/Track'
 
 describe "Trackerific::UPS" do
@@ -49,6 +49,16 @@ describe "Trackerific::UPS" do
       
       subject { @tracking }
       it("should return a Trackerific::Details") { should be_a Trackerific::Details }
+
+      describe "origin" do
+        subject { @tracking.origin }
+        it("should be a location object") { should be_a Trackerific::Location }
+      end
+      
+      describe "destination" do
+        subject { @tracking.destination }
+        it("should be a location object") { should be_a Trackerific::Location }
+      end
       
       describe "events.length" do
         subject { @tracking.events.length }

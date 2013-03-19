@@ -9,10 +9,12 @@ module Trackerific
     # @api private
     def initialize(details = {})
       required = [:package_id, :summary, :events]
-      valid = required + [:weight, :via, :estimated_delivery_date]
+      valid = required + [:weight, :via, :estimated_delivery_date, :origin, :destination]
       validate_options(details, required, valid)
       @package_id = details[:package_id]
       @summary = details[:summary]
+      @origin = details[:origin]
+      @destination = details[:destination]
       @events = details[:events]
       @weight = details[:weight] || nil
       @estimated_delivery_date = details[:estimated_delivery_date] || nil
@@ -81,5 +83,16 @@ module Trackerific
     def via
       @via
     end
+    
+    # Location object of origin    
+    def origin
+      @origin
+    end
+    
+    # Location object of destination
+    def destination
+      @destination
+    end
+    
   end
 end
