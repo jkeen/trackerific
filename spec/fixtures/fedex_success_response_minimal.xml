@@ -18,11 +18,6 @@
       <PackagingDescription>Package</PackagingDescription>
       <PackageSequenceNumber>1</PackageSequenceNumber>
       <PackageCount>1</PackageCount>
-      <OriginLocationAddress>
-         <City>ANAHEIM</City>
-         <StateOrProvinceCode>CA</StateOrProvinceCode>
-         <CountryCode>US</CountryCode>
-      </OriginLocationAddress>
       <ShipDate>2010-06-25</ShipDate>
       <DestinationAddress>
          <City>Gainesville</City>

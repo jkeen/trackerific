@@ -48,6 +48,7 @@ module Trackerific
       details = track_reply["Package"]
       # convert them into Trackerific::Events
       events = []
+            
       [details["Event"]].flatten.each do |e|
         date = Time.parse("#{e["Date"]} #{e["Time"]}")
         desc = e["Description"]
@@ -58,11 +59,24 @@ module Trackerific
           :location     => Trackerific::Location.new(:city => addr["City"], :state => addr["StateOrProvinceCode"], :country => addr["CountryCode"], :postal_code =>  addr["PostalCode"])
         )
       end
+            
+      # this isn't always provided
+      origin      = Trackerific::Location.new(
+                        :city => details["OriginLocationAddress"]["City"], 
+                        :state => details["OriginLocationAddress"]["StateOrProvinceCode"], 
+                        :country => details["OriginLocationAddress"]["CountryCode"]) if details["OriginLocationAddress"]
+      
+      destination = Trackerific::Location.new(
+                        :city => details["DestinationAddress"]["City"], 
+                        :state => details["DestinationAddress"]["StateOrProvinceCode"], 
+                        :country => details["DestinationAddress"]["CountryCode"]) if details["DestinationAddress"]
+      
+      
       # Return a Trackerific::Details containing all the events
       Trackerific::Details.new(
         :package_id  => details["TrackingNumber"],
-        :origin      => Trackerific::Location.new(:city => details["OriginLocationAddress"]["City"], :state => details["OriginLocationAddress"]["StateOrProvinceCode"], :country => details["OriginLocationAddress"]["CountryCode"]),
-        :destination => Trackerific::Location.new(:city => details["DestinationAddress"]["City"], :state => details["DestinationAddress"]["StateOrProvinceCode"], :country => details["DestinationAddress"]["CountryCode"]),
+        :origin      => origin,
+        :destination => destination,
         :summary     => details["StatusDescription"],
         :events      => events
       )

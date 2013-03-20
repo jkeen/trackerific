@@ -70,17 +70,34 @@ describe Trackerific::FedEx do
       end
     end
     
-    context "with a successful response with only one event" do
+    context "with a successful response with minimal data" do
       before(:all) do
-        FakeWeb.register_uri(:post, FEDEX_TRACK_URL, :body => load_fixture(:fedex_success_response_single_event))
+        FakeWeb.register_uri(:post, FEDEX_TRACK_URL, :body => load_fixture(:fedex_success_response_minimal))
       end
       
       before(:each) do
         @tracking = @fedex.track_package(@package_id)
       end
       
-      subject { @tracking }
+      subject { @tracking }      
+      # this response only has one event
       it("should return a Trackerific::Details") { should be_a Trackerific::Details }   
+      
+      describe "events.length" do
+        subject { @tracking.events.length }
+        it { should == 1}
+      end
+      
+      describe "origin" do
+        subject { @tracking.origin }
+        it("should return nil") { should be_nil }
+      end
+
+      describe "destination" do
+        subject { @tracking.destination }
+        it("should return a Trackerific::Location") { should be_a Trackerific::Location }
+      end
+      
     end
     
     
