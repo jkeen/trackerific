@@ -42,14 +42,13 @@ module Trackerific
       http_response.error! unless http_response.code == 200
       # get the tracking information from the reply
       track_reply = http_response["FDXTrack2Reply"]
-
       # raise a Trackerific::Error if there is an error in the reply
       raise Trackerific::Error, track_reply["Error"]["Message"] unless track_reply["Error"].nil?
       # get the details from the reply
       details = track_reply["Package"]
       # convert them into Trackerific::Events
       events = []
-      details["Event"].each do |e|
+      [details["Event"]].flatten.each do |e|
         date = Time.parse("#{e["Date"]} #{e["Time"]}")
         desc = e["Description"]
         addr = e["Address"]

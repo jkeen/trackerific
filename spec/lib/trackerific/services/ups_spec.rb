@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'fakeweb'
-require 'pry'
 UPS_TRACK_URL = 'https://wwwcie.ups.com/ups.app/xml/Track'
 
 describe "Trackerific::UPS" do

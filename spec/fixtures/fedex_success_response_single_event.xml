@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FDXTrack2Reply xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <DuplicateWaybill>false</DuplicateWaybill>
+   <MoreData>false</MoreData>
+   <Package>
+      <TrackingNumber>183689015000001</TrackingNumber>
+      <TrackingNumberUniqueIdentifier>12010~183689015000001</TrackingNumberUniqueIdentifier>
+      <StatusCode>DL</StatusCode>
+      <StatusDescription>Delivered</StatusDescription>
+      <CarrierCode>FDXG</CarrierCode>
+      <OtherIdentifier>
+         <Value>770-886-6395</Value>
+         <Type>CUR</Type>
+      </OtherIdentifier>
+      <Service>FedEx Home Delivery</Service>
+      <Weight>19.8</Weight>
+      <WeightUnits>LBS</WeightUnits>
+      <PackagingDescription>Package</PackagingDescription>
+      <PackageSequenceNumber>1</PackageSequenceNumber>
+      <PackageCount>1</PackageCount>
+      <OriginLocationAddress>
+         <City>ANAHEIM</City>
+         <StateOrProvinceCode>CA</StateOrProvinceCode>
+         <CountryCode>US</CountryCode>
+      </OriginLocationAddress>
+      <ShipDate>2010-06-25</ShipDate>
+      <DestinationAddress>
+         <City>Gainesville</City>
+         <StateOrProvinceCode>GA</StateOrProvinceCode>
+         <CountryCode>US</CountryCode>
+      </DestinationAddress>
+      <DeliveredDate>2010-07-01</DeliveredDate>
+      <DeliveredTime>10:43:51</DeliveredTime>
+      <SignatureProofOfDeliveryAvailable>false</SignatureProofOfDeliveryAvailable>
+      <Event>
+         <Date>2010-07-01</Date>
+         <Time>10:43:51</Time>
+         <Type>DL</Type>
+         <Description>Delivered</Description>
+         <StatusExceptionCode>014</StatusExceptionCode>
+         <StatusExceptionDescription>Left at garage. Signature Service not requested.</StatusExceptionDescription>
+         <Address>
+            <City>Gainesville</City>
+            <StateOrProvinceCode>GA</StateOrProvinceCode>
+            <PostalCode>30506</PostalCode>
+            <CountryCode>US</CountryCode>
+         </Address>
+      </Event>
+   </Package>
+</FDXTrack2Reply>
