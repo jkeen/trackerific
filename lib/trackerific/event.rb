@@ -8,10 +8,12 @@ module Trackerific
     # @api private
     def initialize(details = {})
       required_details = [:date, :description, :location]
-      validate_options details, required_details
+      valid = required_details + [:code]
+      validate_options(details, required_details, valid)
       @date         = details[:date]
       @description  = details[:description]
       @location     = details[:location]
+      @code         = details[:code]
     end
     
     # The date and time of the event
@@ -21,6 +23,11 @@ module Trackerific
     # @api public
     def date
       @date
+    end
+    
+    # Shortcode for what the event actually is
+    def code
+      @code
     end
     
     # The event's description

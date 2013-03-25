@@ -53,8 +53,10 @@ module Trackerific
         date = Time.parse("#{e["Date"]} #{e["Time"]}")
         desc = e["Description"]
         addr = e["Address"]
+        code = e["Type"]
         events << Trackerific::Event.new(
           :date         => date,
+          :code         => code,
           :description  => desc,
           :location     => Trackerific::Location.new(:city => addr["City"], :state => addr["StateOrProvinceCode"], :country => addr["CountryCode"], :postal_code =>  addr["PostalCode"])
         )
@@ -70,15 +72,19 @@ module Trackerific
                         :city => details["DestinationAddress"]["City"], 
                         :state => details["DestinationAddress"]["StateOrProvinceCode"], 
                         :country => details["DestinationAddress"]["CountryCode"]) if details["DestinationAddress"]
-      
+                        
+      delivered_at = Time.parse("#{details["DeliveredDate"]} #{details["DeliveredTime"]}") if details["DeliveredDate"]
       
       # Return a Trackerific::Details containing all the events
       Trackerific::Details.new(
-        :package_id  => details["TrackingNumber"],
-        :origin      => origin,
-        :destination => destination,
-        :summary     => details["StatusDescription"],
-        :events      => events
+        :package_id   => details["TrackingNumber"],
+        :origin       => origin,
+        :service_code => details["CarrierCode"],
+        :service      => details["Service"],
+        :destination  => destination,
+        :delivered_at => delivered_at,
+        :summary      => details["StatusDescription"],
+        :events       => events
       )
     end
     

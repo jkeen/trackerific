@@ -58,6 +58,16 @@ describe Trackerific::FedEx do
         subject { @tracking.destination }
         it("should return a Trackerific::Location") { should be_a Trackerific::Location }
       end
+      
+      describe "service" do
+        subject { @tracking.service_code }
+        it {should == "FDXG"}
+      end
+      
+      describe "service" do
+        subject { @tracking.service }
+        it {should == "FedEx Home Delivery"}
+      end
 
       describe "events.length" do
         subject { @tracking.events.length }

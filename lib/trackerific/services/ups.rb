@@ -86,11 +86,13 @@ module Trackerific
         date    = Date.parse(a['Date'])
         date    = DateTime.parse("#{date} #{hours}:#{minutes}:#{seconds}")
         desc    = a['Status']['StatusType']['Description'].titleize
+        code    = a['Status']['StatusType']['Code']
         loc     = a['ActivityLocation']['Address'].map {|k,v| v}.join(" ")
         address = a['ActivityLocation']['Address']
-
+        
         events << Trackerific::Event.new(
           :date         => date,
+          :code         => code,
           :description  => desc,
           :location     => Trackerific::Location.new(:city => address["City"], :state => address["StateProvinceCode"], :country => address["CountryCode"]),
         )
@@ -105,6 +107,8 @@ module Trackerific
         :origin       => Trackerific::Location.new(:address => origin["AddressLine1"], :city => origin["City"], :state => origin["StateProvinceCode"], :country => origin["CountryCode"]),
         :destination  => Trackerific::Location.new(:address => destination["AddressLine1"], :city => destination["City"], :state => destination["StateProvinceCode"], :country => destination["CountryCode"]),
         :events       => events,
+        :service_code => http_response["TrackResponse"]["Shipment"]["Service"]["Code"],
+        :service      => http_response["TrackResponse"]["Shipment"]["Service"]["Description"],
         :estimated_delivery_date => deliveryDate
       )
     end

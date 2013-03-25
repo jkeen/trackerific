@@ -64,6 +64,16 @@ describe "Trackerific::UPS" do
         it { should >= 1 }
       end
       
+      describe "service code" do
+        subject { @tracking.service_code }
+        it {should == "02"}
+      end
+      
+      describe "service" do
+        subject { @tracking.service }
+        it {should == "2ND DAY AIR"}
+      end
+      
       describe :summary do
         subject { @tracking.summary }
         it { should_not be_empty }

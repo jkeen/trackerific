@@ -9,8 +9,9 @@ describe Trackerific::Details do
       :events     => Array.new
     }
     @valid_options = {
-      :weight     => Hash.new,
-      :via        => String.new
+      :weight       => Hash.new,
+      :service      => String.new,
+      :service_code => String.new
     }
   end
   
@@ -37,8 +38,13 @@ describe Trackerific::Details do
       it { should be_nil }
     end
     
-    describe :via do
-      subject { @details.via }
+    describe :service do
+      subject { @details.service }
+      it { should be_nil }
+    end
+    
+    describe :service_code do
+      subject { @details.service_code }
       it { should be_nil }
     end
   end
@@ -66,8 +72,13 @@ describe Trackerific::Details do
       it { should be_a Hash }
     end
     
-    describe :via do
-      subject { @details.via }
+    describe :service do
+      subject { @details.service }
+      it { should be_a String }
+    end
+    
+    describe :service_code do
+      subject { @details.service_code }
       it { should be_a String }
     end
   end

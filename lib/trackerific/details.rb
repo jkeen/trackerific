@@ -9,16 +9,19 @@ module Trackerific
     # @api private
     def initialize(details = {})
       required = [:package_id, :summary, :events]
-      valid = required + [:weight, :via, :estimated_delivery_date, :origin, :destination]
+      valid = required + [:weight, :service, :service_code, :estimated_delivery_date, :origin, :destination, :delivered_at]
       validate_options(details, required, valid)
-      @package_id = details[:package_id]
-      @summary = details[:summary]
-      @origin = details[:origin]
-      @destination = details[:destination]
-      @events = details[:events]
-      @weight = details[:weight] || nil
+      
+      @package_id              = details[:package_id]
+      @summary                 = details[:summary]
+      @origin                  = details[:origin]
+      @destination             = details[:destination]
+      @events                  = details[:events]
+      @weight                  = details[:weight] || nil
+      @delivered_at            = details[:delivered_at]
       @estimated_delivery_date = details[:estimated_delivery_date] || nil
-      @via = details[:via] || nil
+      @service                 = details[:service] || nil
+      @service_code            = details[:service_code] || nil
     end
     
     # The package identifier
@@ -72,6 +75,14 @@ module Trackerific
     def estimated_delivery_date
       @estimated_delivery_date
     end
+
+    # when it was delivered
+    # @example Get the delivery date of package
+    # details.delivered_at # => delivery time
+    # @return [Time]
+    def delivered_at
+      @delivered_at
+    end
     
     # Example: UPS 2ND DAY AIR. May not be supported by all services
     # @example Get how the package was shipped
@@ -80,8 +91,12 @@ module Trackerific
     #   details.via # => "UPS 2ND DAY AIR"
     # @return [String] The service used to ship the package
     # @api public
-    def via
-      @via
+    def service
+      @service
+    end
+    
+    def service_code
+      @service_code
     end
     
     # Location object of origin    
