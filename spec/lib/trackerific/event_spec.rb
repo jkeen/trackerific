@@ -6,10 +6,18 @@ describe Trackerific::Event do
     @date = Time.now
     @description = 'description'
     @location = 'location'
+    @code     = "02"
     @required_parameters = {
       :date         => @date,
       :description  => @description,
       :location     => @location
+    }
+    
+    @valid_parameters = {
+      :date         => @date,
+      :description  => @description,
+      :location     => @location,
+      :code         => @code     
     }
   end
   
@@ -35,6 +43,14 @@ describe Trackerific::Event do
       before { @regex = /(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (0[1-9]|[1-2][0-9]|3[01]) \d{2}:\d{2} (am|pm).*/ }
       subject { @event.to_s }
       it("should be in format mmm dd hh:mm am/pm.*") { should =~ @regex }
+    end
+  end
+  
+  context "with all options" do
+    before { @event = Trackerific::Event.new(@required_parameters.merge(@valid_parameters)) }
+    describe :code do
+      subject { @event.code }
+      it { should be @code }
     end
   end
   
