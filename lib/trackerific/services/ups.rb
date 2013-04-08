@@ -2,7 +2,7 @@ require 'date'
 
 module Trackerific
   require 'httparty'
-  
+
   # Provides package tracking support for UPS.
   class UPS < Trackerific::Service
     # setup HTTParty
@@ -13,14 +13,14 @@ module Trackerific
       when 'test','development' then 'https://wwwcie.ups.com/ups.app/xml'
       when 'production' then 'https://www.ups.com/ups.app/xml'
     end : 'https://www.ups.com/ups.app/xml'
-    
+
     class << self
       # An Array of Regexp that matches valid UPS package IDs
       # @return [Array, Regexp] the regular expression
       # @api private
       def package_id_matchers
         [ /^.Z/, /^[HK].{10}$/ ]
-      end    
+      end
       # The required parameters for tracking a UPS package
       # @return [Array] the required parameters for tracking a UPS package
       # @api private
@@ -28,7 +28,7 @@ module Trackerific
         [:key, :user_id, :password]
       end
     end
-    
+
     # Tracks a UPS package
     # @param [String] package_id the package identifier
     # @return [Trackerific::Details] the tracking details
@@ -41,6 +41,7 @@ module Trackerific
       super
       # connect to UPS via HTTParty
       http_response = self.class.post('/Track', :body => build_xml_request)
+
       # throw any HTTP errors
       http_response.error! unless http_response.code == 200
       # Check the response for errors, return a Trackerific::Error, or parse
@@ -51,27 +52,27 @@ module Trackerific
         else raise Trackerific::Error, "Invalid response code returned from server."
       end
     end
-    
+
     protected
-    
+
     # Parses the response from UPS
     # @return [Trackerific::Details]
     # @api private
     def parse_success_response(http_response)
-    
+
       # get estimated delivery date
       deliveryDateString = http_response['TrackResponse']['Shipment']['ScheduledDeliveryDate']
-      
+
       if deliveryDateString.present?
         deliveryDateYear = deliveryDateString[0..3]
         deliveryDateMonth = deliveryDateString[4..5]
         deliveryDateDay = deliveryDateString[6..7]
         deliveryDate = Date.new(deliveryDateYear.to_i, deliveryDateMonth.to_i, deliveryDateDay.to_i)
       end
-      
+
       # get the activity from the UPS response
       activity = http_response['TrackResponse']['Shipment']['Package']['Activity']
-      
+
       # if there's only one activity in the list, we need to put it in an array
       activity = [activity] if activity.is_a? Hash
       # UPS does not provide a summary, so we'll just use the last tracking status
@@ -89,19 +90,19 @@ module Trackerific
         code    = a['Status']['StatusType']['Code']
         loc     = a['ActivityLocation']['Address'].map {|k,v| v}.join(" ")
         address = a['ActivityLocation']['Address']
-        
+
         events << Trackerific::Event.new(
           :date         => date,
           :code         => code,
           :description  => desc,
-          :location     => Trackerific::Location.new(:city => address["City"], :state => address["StateProvinceCode"], :country => address["CountryCode"]),
+          :location     => Trackerific::Location.new(:city => address["City"], :state => address["StateProvinceCode"], :country => address["CountryCode"])
         )
       end
-      
-      origin      = http_response['TrackResponse']['Shipment']["Shipper"]["Address"]
-      destination = http_response['TrackResponse']['Shipment']["ShipTo"]["Address"]
-      
-      Trackerific::Details.new(
+
+      origin      = http_response['TrackResponse']['Shipment']["Shipper"]["Address"] || {}
+      destination = http_response['TrackResponse']['Shipment']["ShipTo"]["Address"] || {}
+
+      Trackerific::Details.new({
         :package_id   => @package_id,
         :summary      => summary,
         :origin       => Trackerific::Location.new(:address => origin["AddressLine1"], :city => origin["City"], :state => origin["StateProvinceCode"], :country => origin["CountryCode"]),
@@ -110,16 +111,16 @@ module Trackerific
         :service_code => http_response["TrackResponse"]["Shipment"]["Service"]["Code"],
         :service      => http_response["TrackResponse"]["Shipment"]["Service"]["Description"],
         :estimated_delivery_date => deliveryDate
-      )
+      })
     end
-    
+
     # Parses a UPS tracking response, and returns any errors
     # @return [String] the UPS tracking error
     # @api private
     def parse_error_response(http_response)
       http_response['TrackResponse']['Response']['Error']['ErrorDescription']
     end
-    
+
     # Builds the XML request to send to UPS for tracking a package
     # @return [String] the XML request
     # @api private
